@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -88,30 +90,57 @@ public class Mina extends SpriteEstatico implements Contenedor
     }
     
     public boolean hayPared(int direccion)
-    {
-        boolean hayPared = false;        
+    {        
+        boolean hayPared = false;            
         for(Pared p : paredes)
         {
             if (p.colisiono(ricky))
-            {                              
-                return true;
-            }                
+            {
+                return true;                
+            }
         }
-        return hayPared;
+        return hayPared;        
+    }
+    
+    public void moverRicky(int tecla)
+    {
+        boolean flag = false;
+        Rectangle rr = new Rectangle(ricky.getX(), ricky.getY(), ricky.getWidth(), ricky.getHeight());   
+        
+        if(tecla == KeyEvent.VK_RIGHT)
+        {
+            rr.setBounds(ricky.getX()+ricky.getPaso(), ricky.getY(), ricky.getWidth(), ricky.getHeight());    
+        }
+        if(tecla == KeyEvent.VK_UP)
+        {
+            rr.setBounds(ricky.getX(), ricky.getY()-ricky.getPaso(), ricky.getWidth(), ricky.getHeight());    
+        }
+        if(tecla == KeyEvent.VK_DOWN)
+        {
+            rr.setBounds(ricky.getX(), ricky.getY()+ricky.getPaso(), ricky.getWidth(), ricky.getHeight());    
+        }
+        if(tecla == KeyEvent.VK_LEFT)
+        {
+            rr.setBounds(ricky.getX()-ricky.getPaso(), ricky.getY(), ricky.getWidth(), ricky.getHeight());    
+        }
+        for(Pared p : paredes)
+        {
+            Rectangle rp = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+            if(rp.intersects(rr))                
+            {
+                 flag = true;                
+            }
+        }
+        if(!flag)
+            ricky.mover(tecla); 
+             
     }
     
     public void keyPressed(int tecla)
     {
         if(tecla == KeyEvent.VK_UP | tecla == KeyEvent.VK_DOWN | tecla == KeyEvent.VK_LEFT | tecla == KeyEvent.VK_RIGHT)
         {
-            if(!hayPared(tecla))
-            {
-                ricky.mover(tecla);      
-            }
-            else
-            {
-                ricky.mover(getDireecionContraria(tecla));  
-            }
+            moverRicky(tecla);    
         }       
        
         if(tecla == KeyEvent.VK_R)

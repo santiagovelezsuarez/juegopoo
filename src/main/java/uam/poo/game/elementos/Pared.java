@@ -33,4 +33,24 @@ public class Pared extends SpriteEstatico
         g.setColor(this.getColor());        
         g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);        
     }
+    
+    public int getX()
+    {
+        return rectangle.x;
+    }
+    
+    public int getY()
+    {
+        return rectangle.y;
+    }
+    
+    public int getWidth()
+    {
+        return rectangle.width;
+    }
+    
+    public int getHeight()
+    {
+        return rectangle.height;
+    }
 }

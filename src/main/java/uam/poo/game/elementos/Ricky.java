@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
  *
  * @author santi
  */
-public class Ricky extends SpriteMobileManual
+public class Ricky extends SpriteMobileManual 
 {
     private int paso;
     
@@ -29,7 +29,7 @@ public class Ricky extends SpriteMobileManual
     {
         super(rectangle, color);
         paso = SLOW;
-    }
+    } 
     
     public int getPaso()
     {
