@@ -17,6 +17,8 @@ import java.util.logging.Logger;
  */
 public class Murcielago extends Enemigo
 {
+    public static final int VELOCIDAD=35;
+    
     public static final int WIDTH = 30; 
     
     public static final int HEIGHT = 30; 
@@ -31,12 +33,42 @@ public class Murcielago extends Enemigo
     {
         super(rectangle, color);
         running = true;
+        damage=10;
+        velX=VELOCIDAD;
     }    
 
     @Override
     public void mover(int direecion)
     {
-        rectangle.y +=1;
+      int mover=(int)(Math.random()*4+1);
+      int tx=rectangle.x;
+      int ty=rectangle.y;
+      
+      switch(mover){
+          case 1:
+              ty +=velX;
+              break;
+          case 2:
+              ty -=velX;
+              break;
+          case 3:
+              tx +=velX;
+              break;
+          case 4:
+              tx -=velX;
+              break;
+          
+      }
+      
+      Rectangle rectangulo=contenedor.getDimension();
+      
+      if(tx<=rectangulo.width-WIDTH& tx>=0 & ty<=rectangulo.height-HEIGHT & ty>=0 ){
+          rectangle.x=tx;
+          rectangle.y=ty;
+      }
+            
+              
+        
     }
 
     @Override

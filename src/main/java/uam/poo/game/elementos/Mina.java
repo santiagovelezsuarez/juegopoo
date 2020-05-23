@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,6 +17,8 @@ import java.util.logging.Logger;
 public class Mina extends SpriteEstatico implements Contenedor
 {
     private Ricky ricky;
+    
+    private Diamante diamante;
     
     private ArrayList<Enemigo> enemigos;
     
@@ -30,6 +33,8 @@ public class Mina extends SpriteEstatico implements Contenedor
         super(rectangle, color);
         this.ricky = new Ricky(new Rectangle(Ricky.X0, rectangle.height-Ricky.HEIGHT, Ricky.WIDTH, Ricky.HEIGHT), Ricky.COLOR);
         this.ricky.setContenedor(this);
+        this.diamante=new Diamante(new Rectangle(rectangle.width-Diamante.WIDTH,0,Diamante.WIDTH,Diamante.HEIGHT),Diamante.COLOR);
+        this.diamante.setContenedor(this);
         this.enemigos = new ArrayList<>();
         this.paredes = new ArrayList<>();
         generarParedes(); // Temporal se debe generar desde un archivo
@@ -47,6 +52,15 @@ public class Mina extends SpriteEstatico implements Contenedor
             paredes.add(p);            
         }
     }
+    
+    public void cargarMurcielagos(int cantidad){
+        for(int i=0;i<cantidad;i++){
+           this.agregarEnemigo(MURCIELAGO);
+        }
+        
+    }
+    
+    
     
     public void agregarEnemigo(int tipo)
     {
@@ -89,18 +103,7 @@ public class Mina extends SpriteEstatico implements Contenedor
         return 0;
     }
     
-    public boolean hayPared(int direccion)
-    {        
-        boolean hayPared = false;            
-        for(Pared p : paredes)
-        {
-            if (p.colisiono(ricky))
-            {
-                return true;                
-            }
-        }
-        return hayPared;        
-    }
+   
     
     public void moverRicky(int tecla)
     {
@@ -133,8 +136,21 @@ public class Mina extends SpriteEstatico implements Contenedor
         }
         if(!flag)
             ricky.mover(tecla); 
+        
+        
+        if(ricky.colisiono(diamante))
+            JOptionPane.showMessageDialog(null,"llego al diamante");
              
+        for(Enemigo e: enemigos){
+            if(ricky.colisiono(e)){
+               ricky.quitarOxigeno(e.damage);
+            JOptionPane.showMessageDialog(null, "AHORA TU OXIGENO ES DE: "+ricky.getOxigeno());  
+            }
+              
+        }
     }
+    
+   
     
     public void keyPressed(int tecla)
     {
@@ -160,7 +176,7 @@ public class Mina extends SpriteEstatico implements Contenedor
         g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         
         ricky.draw(g);
-        
+        diamante.draw(g);
         for(Enemigo enemigo : enemigos)
         {
             enemigo.draw(g);

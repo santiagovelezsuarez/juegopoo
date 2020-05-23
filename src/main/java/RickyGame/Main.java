@@ -19,6 +19,7 @@ public class Main
         Mina mina = new Mina(new Rectangle(0, 0, ventanaPrincipal.getWidth(), ventanaPrincipal.getHeight()), Color.yellow);
         ventanaPrincipal.setMina(mina);
         mina.setContenedor(ventanaPrincipal);
+        mina.cargarMurcielagos(3);
         ventanaPrincipal.setVisible(true);        
     }    
 }

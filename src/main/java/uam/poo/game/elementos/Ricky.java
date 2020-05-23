@@ -13,6 +13,10 @@ public class Ricky extends SpriteMobileManual
 {
     private int paso;
     
+    private int oxigeno;
+    
+    public static final int OXIGENOINICIAL=100;
+    
     public static final int SLOW = 5;
     
     public static final int FAST = 8;
@@ -29,7 +33,12 @@ public class Ricky extends SpriteMobileManual
     {
         super(rectangle, color);
         paso = SLOW;
+        oxigeno=OXIGENOINICIAL;
     } 
+
+    public int getOxigeno() {
+        return oxigeno;
+    }
     
     public int getPaso()
     {
@@ -61,6 +70,10 @@ public class Ricky extends SpriteMobileManual
         return rectangle.height;
     }
 
+    public void quitarOxigeno(int danio){
+        
+        this.oxigeno-=danio;
+    }
     @Override
     public void mover(int direccion) 
     {

@@ -25,7 +25,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Contenedor
     public VentanaPrincipal() 
     {
         initComponents();         
-        createBufferStrategy(4);        
+        createBufferStrategy(4);
         bf = this.getBufferStrategy();
     }
     

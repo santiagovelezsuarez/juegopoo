@@ -22,17 +22,27 @@ public class Roca extends Enemigo
     public static final Color COLOR  = Color.GRAY; 
     
     private boolean running;
+    
+    
 
     public Roca(Rectangle rectangle, Color color) 
     {
         super(rectangle, color);
         running = true;
+        damage=5;
     }    
 
     @Override
     public void mover(int direccion)
     {
-        rectangle.y +=1;
+        rectangle.y +=30;
+        
+        if(rectangle.y>=contenedor.getDimension().height){
+            rectangle.y=0;
+            rectangle.x=(int)(Math.random()*contenedor.getDimension().width+1);
+        }
+            
+           
     }
 
     @Override

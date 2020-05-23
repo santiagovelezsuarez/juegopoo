@@ -15,10 +15,7 @@ public class Pared extends SpriteEstatico
     public static final int HEIGHT = 30; 
     
     public static final Color COLOR  = Color.RED; 
-    
-    public static final int HORIZONTAL  = 1; 
-    
-    public static final int VERTICAL  = 2;    
+     
     
     private int resistencia;    
 
