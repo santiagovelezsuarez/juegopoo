@@ -17,13 +17,11 @@ public class Ricky extends SpriteMobileManual
     
     public static final int OXIGENOINICIAL=100;
     
+    public static final int MIN = 1;
+    
     public static final int SLOW = 5;
     
-    public static final int FAST = 8;
-    
-    public static final int WIDTH = 50; 
-    
-    public static final int HEIGHT = 50;
+    public static final int FAST = 8;    
     
     public static final Color COLOR  = Color.BLUE; 
     
@@ -32,7 +30,7 @@ public class Ricky extends SpriteMobileManual
     public Ricky(Rectangle rectangle, Color color) 
     {
         super(rectangle, color);
-        paso = SLOW;
+        paso = SLOW;       
         oxigeno=OXIGENOINICIAL;
     } 
 
@@ -112,6 +110,6 @@ public class Ricky extends SpriteMobileManual
     public void draw(Graphics g) 
     {
         g.setColor(this.getColor());      
-        g.fillRect(rectangle.x, rectangle.y, rectangle.height, rectangle.width);
+        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }    
 }

@@ -101,7 +101,7 @@ public class Murcielago extends Enemigo
         while(running)
         {
             mover(dirRandom());
-            contenedor.refrescar();            
+            contenedor.refrescar();             
             try 
             {
                 Thread.sleep(100);
@@ -109,8 +109,7 @@ public class Murcielago extends Enemigo
             catch (InterruptedException ex) 
             {
                 Logger.getLogger(Roca.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            contenedor.verificarColisiones();
+            }            
         }
     }
     

@@ -9,13 +9,9 @@ import java.awt.Rectangle;
  * @author santi
  */
 public class Pared extends SpriteEstatico
-{    
-    public static final int WIDTH = 100; 
+{
     
-    public static final int HEIGHT = 30; 
-    
-    public static final Color COLOR  = Color.RED; 
-     
+    public static final Color COLOR  = Color.RED;      
     
     private int resistencia;    
 

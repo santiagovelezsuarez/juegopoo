@@ -13,29 +13,23 @@ import java.awt.Rectangle;
  *
  * @author JUAN DAVID
  */
-public class Diamante extends SpriteEstatico {
-
-    
-    public static final int WIDTH = 90; 
-    
-    public static final int HEIGHT = 90; 
-    
+public class Diamante extends SpriteEstatico
+{ 
     public static final Color COLOR  = Color.GREEN; 
     
-    public Diamante(Rectangle rectangle, Color color) {
+    public Diamante(Rectangle rectangle, Color color) 
+    {
         super(rectangle, color);
-    }
-
-
-    
+    }  
     
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g) 
+    {
        g.setColor(this.getColor());        
         g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height); 
     }
 
-   public int getX()
+    public int getX()
     {
         return rectangle.x;
     }

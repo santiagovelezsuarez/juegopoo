@@ -14,11 +14,7 @@ import java.awt.Rectangle;
  * @author santi
  */
 public class Oxygeno extends SpriteEstatico
-{
-    public static final int WIDTH = 25; 
-    
-    public static final int HEIGHT = 25; 
-    
+{   
     public static final Color COLOR  = Color.ORANGE; 
     
     private int cantidad;

@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import uam.poo.game.elementos.Contenedor;
 import uam.poo.game.elementos.Mina;
 
@@ -18,7 +19,7 @@ import uam.poo.game.elementos.Mina;
  */
 public class VentanaPrincipal extends javax.swing.JFrame implements Contenedor
 {
-    private Mina mina;
+    private Mina mina;  
     
     private final BufferStrategy bf;
    
@@ -96,12 +97,8 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Contenedor
         mina.keyPressed(evt.getKeyCode());
     }//GEN-LAST:event_formKeyPressed
 
-    @Override
-    public void verificarColisiones() 
-    {
-        
-    }
     
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

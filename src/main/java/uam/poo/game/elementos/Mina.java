@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import uam.poo.game.utils.Coordenada;
 
 /**
  *
@@ -30,30 +31,30 @@ public class Mina extends SpriteEstatico implements Contenedor
     
     private final int BORDE = 5;
     
+    private final String RICKY = "r";
+    
+    private final String DIAMANTE = "d";
+    
+    private final String OXIGENO = "o";
+    
+    private final String PARED = "*";
+    
     public Mina(Rectangle rectangle, Color color) 
     {
         super(rectangle, color);
-        this.ricky = new Ricky(new Rectangle(Ricky.X0, rectangle.height-Ricky.HEIGHT-BORDE, Ricky.WIDTH, Ricky.HEIGHT), Ricky.COLOR);
-        this.ricky.setContenedor(this);
-        this.diamante=new Diamante(new Rectangle(rectangle.width-Diamante.WIDTH-BORDE,BORDE,Diamante.WIDTH,Diamante.HEIGHT),Diamante.COLOR);
-        this.diamante.setContenedor(this);
+        //this.ricky = new Ricky(new Rectangle(Ricky.X0, rectangle.height-Ricky.HEIGHT-BORDE, Ricky.WIDTH, Ricky.HEIGHT), Ricky.COLOR);
+        //this.ricky.setContenedor(this);
+        //this.diamante=new Diamante(new Rectangle(rectangle.width-Diamante.WIDTH-BORDE,BORDE,Diamante.WIDTH,Diamante.HEIGHT),Diamante.COLOR);
+        //this.diamante.setContenedor(this);
         this.oxygenos = new ArrayList<>();
         this.enemigos = new ArrayList<>();
         this.paredes = new ArrayList<>();
-        generarParedes(); // Temporal se debe generar desde un archivo
-        generarOxygenos();
+        dibujarBordes(); 
+        //generarOxygenos();
     }
+        
     
-    public void generarOxygenos()
-    {
-        for(int i=0; i<10; i++)
-        {
-            agregarOxygeno();
-        }
-    }
-    
-    
-    public void generarParedes()
+    public void dibujarBordes()
     {
         Pared p1 = new Pared(new Rectangle(0, 0, rectangle.width, BORDE), Pared.COLOR);
         p1.setContenedor(this);            
@@ -68,14 +69,14 @@ public class Mina extends SpriteEstatico implements Contenedor
         p4.setContenedor(this);            
         paredes.add(p4);
         //Temporal
-        for(int i=0; i<12; i++)
+        /*for(int i=0; i<12; i++)
         {
             int hx = (int) (Math.random() * rectangle.width - Pared.WIDTH);
             int hy = (int) (Math.random() * rectangle.height - Pared.HEIGHT);            
             Pared p = new Pared(new Rectangle(hx, hy, Pared.WIDTH, Pared.HEIGHT), Pared.COLOR);
             p.setContenedor(this);            
             paredes.add(p);            
-        }
+        }*/
     }
     
     public void cargarMurcielagos(int cantidad)
@@ -85,14 +86,71 @@ public class Mina extends SpriteEstatico implements Contenedor
            this.agregarEnemigo(MURCIELAGO);
         }        
     }
-    
-    public void agregarOxygeno()
+           
+    public void cargarMapa(ArrayList<String> mapa) 
     {
-        int hx = (int) (Math.random() * rectangle.width - Oxygeno.WIDTH);
-        int hy = (int) (Math.random() * rectangle.height - Oxygeno.HEIGHT);
-        Oxygeno o = new Oxygeno(new Rectangle(hx, hy, Oxygeno.WIDTH, Oxygeno.HEIGHT), Oxygeno.COLOR);
-        o.setContenedor(this);        
-        oxygenos.add(o);
+        for(int i=0; i<mapa.size(); i++)
+        {
+            if(mapa.get(i).equals(RICKY))                
+            {
+                Coordenada c = getCoordenada(i);
+                this.ricky = new Ricky(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()), Ricky.COLOR);
+                this.ricky.setContenedor(this);
+            }
+            else if(mapa.get(i).equals(DIAMANTE))
+            {
+                Coordenada c = getCoordenada(i);
+                this.diamante=new Diamante(new Rectangle(c.getX(), c.getY(),getWidthCelda(), getHeightCelda()),Diamante.COLOR);
+                this.diamante.setContenedor(this);
+            }
+            else if(mapa.get(i).equals(OXIGENO))
+            {                
+                Coordenada c = getCoordenada(i);
+                Oxygeno o = new Oxygeno(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()), Oxygeno.COLOR);
+                o.setContenedor(this);
+                oxygenos.add(o);
+            }
+            else if(mapa.get(i).equals(PARED))
+            {
+                Coordenada c = getCoordenada(i);
+                Pared p = new Pared(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()), Pared.COLOR);
+                p.setContenedor(this);            
+                paredes.add(p); 
+            }
+        }
+    }
+    
+    private int getWidthCelda()
+    {
+        Rectangle dimension = contenedor.getDimension();
+        int width = dimension.width - 2*BORDE;
+        int factorX = width/10;
+        return factorX;
+    }
+    
+    private int getHeightCelda()
+    {
+        Rectangle dimension = contenedor.getDimension();
+        int height = dimension.height - 2*BORDE;
+        int factorY = height/10;
+        return factorY;
+    }
+    
+    private Coordenada getCoordenada(int i)
+    {                
+        int x = i%10;        
+        int y = i/10;        
+        int factorX = getWidthCelda();
+        int factorY = getHeightCelda();        
+        x = (x*factorX)+BORDE;
+        y = (y*factorY)+BORDE;        
+        return new Coordenada(x, y);      
+        
+    }
+    
+    public void destruirPared()
+    {
+        // TODO: 
     }
     
         
@@ -126,7 +184,7 @@ public class Mina extends SpriteEstatico implements Contenedor
     
      
     public void moverRicky(int tecla)
-    {
+    {        
         boolean flag = false;
         Rectangle rr = new Rectangle(ricky.getX(), ricky.getY(), ricky.getWidth(), ricky.getHeight());   
         
@@ -151,12 +209,20 @@ public class Mina extends SpriteEstatico implements Contenedor
             Rectangle rp = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
             if(rp.intersects(rr))                
             {
-                 flag = true;                
+                 flag = true;                 
             }
         }
-        if(!flag)
-            ricky.mover(tecla); 
         
+        if(!flag)
+        {             
+            ricky.mover(tecla);
+            ricky.setPaso(Ricky.SLOW);
+        }             
+        else
+        {
+           ricky.setPaso(Ricky.MIN);       
+        }
+                  
         
         if(ricky.colisiono(diamante))
             JOptionPane.showMessageDialog(null,"llego al diamante");
@@ -170,11 +236,15 @@ public class Mina extends SpriteEstatico implements Contenedor
                 oxygenos.remove(ox);
                 System.out.println("Oxygeno = "+ricky.getOxigeno());
             }
-        }            
-       
+        }       
     }
     
-   
+    private int getKeyRandom()
+    {
+        int teclas[] = {KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
+        return teclas[(int)(Math.random()*teclas.length)];        
+    }
+      
     
     public void keyPressed(int tecla)
     {
@@ -182,7 +252,10 @@ public class Mina extends SpriteEstatico implements Contenedor
         {
             moverRicky(tecla);    
         }       
-       
+        if(tecla == KeyEvent.VK_SPACE)
+        {
+            destruirPared();            
+        }
         if(tecla == KeyEvent.VK_R)
         {
             agregarEnemigo(Mina.ROCA);            
@@ -202,21 +275,23 @@ public class Mina extends SpriteEstatico implements Contenedor
         
         for(Pared pared : paredes)
         {
-            pared.draw(g);
+            pared.draw(g);       
+            System.out.println("Pared "+pared.rectangle);
         }
         
         for(Oxygeno ox : oxygenos)
         {
-            ox.draw(g);
+            ox.draw(g);   
+            System.out.println("Ox :"+ox.rectangle);
         }
         
         ricky.draw(g);
+        System.out.println("Ricky "+ricky.rectangle);
         diamante.draw(g);
         for(Enemigo enemigo : enemigos)
         {
             enemigo.draw(g);
-        }
-        
+        }    
         
     }
 
@@ -224,23 +299,23 @@ public class Mina extends SpriteEstatico implements Contenedor
     public void refrescar() 
     {
         contenedor.refrescar();
+        verificarColisiones();
     }
 
     @Override
     public Rectangle getDimension() 
     {
         return rectangle;
-    }    
-
-    @Override
-    public void verificarColisiones() 
+    } 
+    
+    private void verificarColisiones() 
     {
         for(Enemigo e : enemigos)      
         {
             if(e.colisiono(ricky))
             {        
                 e.colisionar();                
-                ricky.mover(KeyEvent.VK_RIGHT);
+                moverRicky(getKeyRandom());
                 ricky.quitarOxigeno(e.damage);
                 System.out.println("AHORA TU OXIGENO ES DE: "+ricky.getOxigeno());                 
             }
