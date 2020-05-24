@@ -15,7 +15,7 @@ public class Main
     {
         VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
         ventanaPrincipal.setSize(800, 600);
-        
+        ventanaPrincipal.setLocationRelativeTo(null);
         Mina mina = new Mina(new Rectangle(0, 0, ventanaPrincipal.getWidth(), ventanaPrincipal.getHeight()), Color.yellow);
         ventanaPrincipal.setMina(mina);
         mina.setContenedor(ventanaPrincipal);

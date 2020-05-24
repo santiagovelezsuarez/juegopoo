@@ -24,6 +24,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Contenedor
    
     public VentanaPrincipal() 
     {
+        this.setUndecorated(true);       
         initComponents();         
         createBufferStrategy(4);
         bf = this.getBufferStrategy();
@@ -44,7 +45,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Contenedor
     @Override
     public void refrescar() 
     {
-        this.repaint();
+        this.repaint();        
     }
 
     @Override
@@ -94,6 +95,12 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Contenedor
         
         mina.keyPressed(evt.getKeyCode());
     }//GEN-LAST:event_formKeyPressed
+
+    @Override
+    public void verificarColisiones() 
+    {
+        
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

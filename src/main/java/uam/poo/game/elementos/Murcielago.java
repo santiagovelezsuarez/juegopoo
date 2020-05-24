@@ -8,6 +8,7 @@ package uam.poo.game.elementos;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,26 +26,25 @@ public class Murcielago extends Enemigo
     
     public static final int SCREEN_TOP = 0; 
     
-    public static final Color COLOR  = Color.BLACK; 
+    public static final Color COLOR  = Color.BLACK;     
     
-    private boolean running;
 
     public Murcielago(Rectangle rectangle, Color color) 
     {
         super(rectangle, color);
         running = true;
-        damage=10;
+        damage = (int)(Math.random()*4+1);
         velX=VELOCIDAD;
     }    
 
     @Override
-    public void mover(int direecion)
-    {
-      int mover=(int)(Math.random()*4+1);
+    public void mover(int direccion)
+    {      
       int tx=rectangle.x;
       int ty=rectangle.y;
       
-      switch(mover){
+      switch(direccion)
+      {
           case 1:
               ty +=velX;
               break;
@@ -56,20 +56,19 @@ public class Murcielago extends Enemigo
               break;
           case 4:
               tx -=velX;
-              break;
-          
+              break;          
       }
       
       Rectangle rectangulo=contenedor.getDimension();
       
-      if(tx<=rectangulo.width-WIDTH& tx>=0 & ty<=rectangulo.height-HEIGHT & ty>=0 ){
+      if(tx<=rectangulo.width-WIDTH& tx>=0 & ty<=rectangulo.height-HEIGHT & ty>=0 )
+      {
           rectangle.x=tx;
           rectangle.y=ty;
-      }
-            
-              
+      }                 
         
-    }
+    }   
+    
 
     @Override
     public void draw(Graphics g)
@@ -79,12 +78,30 @@ public class Murcielago extends Enemigo
     }
 
     @Override
+    public void colisionar() 
+    {
+        rectangle.y=(int)(Math.random()*contenedor.getDimension().height);
+        Random r = new Random();
+        if(r.nextBoolean())
+            rectangle.x=contenedor.getDimension().width-rectangle.width-1;
+        else
+            rectangle.x=0;
+        
+    }
+    
+    public int dirRandom()
+    {
+        return (int)(Math.random()*4+1);
+    }
+    
+
+    @Override
     public void run() 
     {        
         while(running)
         {
-            mover(DIR_DOWN);
-            contenedor.refrescar();
+            mover(dirRandom());
+            contenedor.refrescar();            
             try 
             {
                 Thread.sleep(100);
@@ -93,6 +110,7 @@ public class Murcielago extends Enemigo
             {
                 Logger.getLogger(Roca.class.getName()).log(Level.SEVERE, null, ex);
             }
+            contenedor.verificarColisiones();
         }
     }
     

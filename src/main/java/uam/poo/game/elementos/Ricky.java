@@ -27,7 +27,7 @@ public class Ricky extends SpriteMobileManual
     
     public static final Color COLOR  = Color.BLUE; 
     
-    public static final int X0 = 0;   
+    public static final int X0 = 5;   
 
     public Ricky(Rectangle rectangle, Color color) 
     {
@@ -70,9 +70,20 @@ public class Ricky extends SpriteMobileManual
         return rectangle.height;
     }
 
-    public void quitarOxigeno(int danio){
-        
-        this.oxigeno-=danio;
+    public void quitarOxigeno(int danio)
+    {
+        if((this.oxigeno - danio)<0)
+            this.oxigeno = 0;
+        else
+            this.oxigeno-=danio;        
+    }
+    
+    public void cojerOxigeno(int cant)
+    {
+        if((this.oxigeno + cant)>100)
+            this.oxigeno = 100;
+        else
+            this.oxigeno+=cant;
     }
     @Override
     public void mover(int direccion) 

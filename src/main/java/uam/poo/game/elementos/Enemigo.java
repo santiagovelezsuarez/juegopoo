@@ -16,6 +16,20 @@ public abstract class Enemigo extends SpriteMobileAutonomo
 {
     protected int damage;
     
+    protected boolean running;
+    
+    public abstract void colisionar();
+    
+    public void reanudar()
+    {
+        running = true;
+    }
+    
+    public void parar()
+    {
+        running = false;
+    }
+    
     public Enemigo(Rectangle rectangle, Color color) 
     {
         super(rectangle, color);

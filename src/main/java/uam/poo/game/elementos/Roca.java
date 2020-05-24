@@ -3,6 +3,7 @@ package uam.poo.game.elementos;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,11 +20,7 @@ public class Roca extends Enemigo
     
     public static final int SCREEN_TOP = 0; 
     
-    public static final Color COLOR  = Color.GRAY; 
-    
-    private boolean running;
-    
-    
+    public static final Color COLOR  = Color.GRAY;   
 
     public Roca(Rectangle rectangle, Color color) 
     {
@@ -35,13 +32,15 @@ public class Roca extends Enemigo
     @Override
     public void mover(int direccion)
     {
-        rectangle.y +=30;
-        
-        if(rectangle.y>=contenedor.getDimension().height){
-            rectangle.y=0;
-            rectangle.x=(int)(Math.random()*contenedor.getDimension().width+1);
-        }
-            
+        if(direccion == KeyEvent.VK_DOWN)
+        {
+            rectangle.y +=30;        
+            if(rectangle.y>=contenedor.getDimension().height)
+            {
+                rectangle.y=0;
+                rectangle.x=(int)(Math.random()*contenedor.getDimension().width+1);
+            }
+        }            
            
     }
 
@@ -53,12 +52,18 @@ public class Roca extends Enemigo
     }
 
     @Override
+    public void colisionar() 
+    {
+        rectangle.y = contenedor.getDimension().height;
+    }   
+
+    @Override
     public void run() 
     {        
         while(running)
         {
-            mover(DIR_DOWN);
-            contenedor.refrescar();
+            mover(KeyEvent.VK_DOWN);
+            //contenedor.refrescar();
             try 
             {
                 Thread.sleep(100);
