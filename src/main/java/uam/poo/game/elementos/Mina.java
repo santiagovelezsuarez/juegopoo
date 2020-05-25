@@ -1,6 +1,8 @@
 package uam.poo.game.elementos;
 
+import RickyGame.Main;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -11,7 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import uam.poo.game.utils.Coordenada;
+import uam.poo.game.utils.GestorArchivoPlano;
 
 /**
  *
@@ -36,6 +40,8 @@ public class Mina extends SpriteEstatico implements Contenedor
     
     private final int BORDE = 5;
     
+    public static final int INFO = 50;
+    
     private final String RICKY = "r";
     
     private final String DIAMANTE = "d";
@@ -46,10 +52,13 @@ public class Mina extends SpriteEstatico implements Contenedor
     
     public Mina(Rectangle rectangle) 
     {
-        super(rectangle);
-         try {
-            imagen=ImageIO.read(new File("./src/main/java/RickyGame/textures/fondo.jpg"));
-        } catch (IOException ex) {
+        super(rectangle);        
+        try 
+        {
+            imagen=ImageIO.read(new File("./src/main/java/RickyGame/textures/fondo.jpg"));            
+        } 
+        catch (IOException ex) 
+        {
             Logger.getLogger(Diamante.class.getName()).log(Level.SEVERE, null, ex);
         }
         //this.ricky = new Ricky(new Rectangle(Ricky.X0, rectangle.height-Ricky.HEIGHT-BORDE, Ricky.WIDTH, Ricky.HEIGHT), Ricky.COLOR);
@@ -67,16 +76,16 @@ public class Mina extends SpriteEstatico implements Contenedor
     
     public void dibujarBordes()
     {
-        Pared p1 = new Pared(new Rectangle(0, 0, rectangle.width, BORDE));
+        Pared p1 = new Pared(new Rectangle(0, INFO, rectangle.width, BORDE));
         p1.setContenedor(this);            
         paredes.add(p1);
-        Pared p2 = new Pared(new Rectangle(0, 0, BORDE, rectangle.height));
+        Pared p2 = new Pared(new Rectangle(0, INFO, BORDE, rectangle.height));
         p2.setContenedor(this);            
         paredes.add(p2);
         Pared p3 = new Pared(new Rectangle(0, rectangle.height-BORDE, rectangle.width, BORDE));
         p3.setContenedor(this);            
         paredes.add(p3);
-        Pared p4 = new Pared(new Rectangle(rectangle.width-BORDE, 0, BORDE, rectangle.height));
+        Pared p4 = new Pared(new Rectangle(rectangle.width-BORDE, INFO, BORDE, rectangle.height));
         p4.setContenedor(this);            
         paredes.add(p4);
         //Temporal
@@ -96,6 +105,22 @@ public class Mina extends SpriteEstatico implements Contenedor
         {
            this.agregarEnemigo(MURCIELAGO);
         }        
+    }
+           
+    public void leerMapa()
+    {
+        ArrayList<String> mapa=null;
+        Mapa m = new Mapa();
+        m.setInerprete(new GestorArchivoPlano());
+        try 
+        {
+            mapa = m.getMapa("./src/main/java/mapas/mapa01.txt");            
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarMapa(mapa);        
     }
            
     public void cargarMapa(ArrayList<String> mapa) 
@@ -142,7 +167,7 @@ public class Mina extends SpriteEstatico implements Contenedor
     private int getHeightCelda()
     {
         Rectangle dimension = contenedor.getDimension();
-        int height = dimension.height - 2*BORDE;
+        int height = dimension.height - 2*BORDE - INFO;
         int factorY = height/10;
         return factorY;
     }
@@ -154,7 +179,7 @@ public class Mina extends SpriteEstatico implements Contenedor
         int factorX = getWidthCelda();
         int factorY = getHeightCelda();        
         x = (x*factorX)+BORDE;
-        y = (y*factorY)+BORDE;        
+        y = (y*factorY)+BORDE+INFO;        
         return new Coordenada(x, y);      
         
     }
@@ -173,11 +198,11 @@ public class Mina extends SpriteEstatico implements Contenedor
         {
             case ROCA:
                 hx = (int) (Math.random() * rectangle.width - Roca.WIDTH);
-                enemigo = new Roca(new Rectangle(hx, Roca.SCREEN_TOP, Roca.WIDTH, Roca.HEIGHT));               
+                enemigo = new Roca(new Rectangle(hx, INFO, Roca.WIDTH, Roca.HEIGHT));               
                 break;
             case MURCIELAGO:
                 hx = (int) (Math.random() * rectangle.width - Roca.WIDTH);
-                enemigo = new Murcielago(new Rectangle(hx, Murcielago.SCREEN_TOP, Murcielago.WIDTH, Murcielago.HEIGHT));                
+                enemigo = new Murcielago(new Rectangle(hx, INFO, Murcielago.WIDTH, Murcielago.HEIGHT));                
                 break;
             default:
                 System.err.println("[Mina@agregarEnemigo] tipo incorrecto: " + tipo);
@@ -227,6 +252,7 @@ public class Mina extends SpriteEstatico implements Contenedor
         if(!flag)
         {             
             ricky.mover(tecla);
+            ricky.agitarse();
             ricky.setPaso(Ricky.SLOW);
         }             
         else
@@ -247,7 +273,12 @@ public class Mina extends SpriteEstatico implements Contenedor
                 oxygenos.remove(ox);
                 System.out.println("Oxygeno = "+ricky.getOxigeno());
             }
-        }       
+        }
+        if(ricky.getOxigeno() <= 0)
+        {
+            JOptionPane.showMessageDialog(null, "Game Over ");
+            leerMapa();
+        }
     }
     
     private int getKeyRandom()
@@ -283,6 +314,10 @@ public class Mina extends SpriteEstatico implements Contenedor
         g.drawImage(imagen, rectangle.x,rectangle.y, rectangle.width, rectangle.height, null);
         //g.setColor(getColor());
         //g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
+        g.drawString("Oxigeno: "+ricky.getOxigeno(), 10, 25);
         
         
         for(Pared pared : paredes)
@@ -326,9 +361,9 @@ public class Mina extends SpriteEstatico implements Contenedor
         {
             if(e.colisiono(ricky))
             {        
-                e.colisionar();                
-                moverRicky(getKeyRandom());
+                e.colisionar();          
                 ricky.quitarOxigeno(e.damage);
+                moverRicky(getKeyRandom());                
                 System.out.println("AHORA TU OXIGENO ES DE: "+ricky.getOxigeno());                 
             }
         }

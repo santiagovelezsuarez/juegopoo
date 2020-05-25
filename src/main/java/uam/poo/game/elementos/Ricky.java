@@ -93,6 +93,14 @@ public class Ricky extends SpriteMobileManual
         else
             this.oxigeno+=cant;
     }
+    
+    public void agitarse()
+    {
+        int random = (int)(Math.random()*10);
+        if(random == 1)
+            quitarOxigeno(1); 
+    }
+    
     @Override
     public void mover(int direccion) 
     {

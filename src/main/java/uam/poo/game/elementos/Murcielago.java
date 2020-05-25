@@ -69,11 +69,11 @@ public class Murcielago extends Enemigo
       
       Rectangle rectangulo=contenedor.getDimension();
       
-      if(tx<=rectangulo.width-WIDTH& tx>=0 & ty<=rectangulo.height-HEIGHT & ty>=0 )
+      if(tx<=rectangulo.width-WIDTH& tx>=0 & ty<=rectangulo.height-HEIGHT & ty>=Mina.INFO )
       {
           rectangle.x=tx;
           rectangle.y=ty;
-      }                 
+      }               
         
     }   
     
