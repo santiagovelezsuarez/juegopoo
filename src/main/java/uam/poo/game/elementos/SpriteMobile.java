@@ -22,9 +22,9 @@ public abstract class SpriteMobile extends Sprite
     
     protected static final  int DIR_LEFT = 4;
     
-    public SpriteMobile(Rectangle rectangle, Color color) 
+    public SpriteMobile(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
     }
     
     public abstract void mover(int direccion);

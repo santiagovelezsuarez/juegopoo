@@ -9,8 +9,8 @@ import java.awt.Rectangle;
  */
 public abstract class SpriteMobileManual extends SpriteMobile
 {    
-    public SpriteMobileManual(Rectangle rectangle, Color color) 
+    public SpriteMobileManual(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
     }    
 }

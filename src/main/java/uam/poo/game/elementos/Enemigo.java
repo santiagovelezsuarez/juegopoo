@@ -30,8 +30,8 @@ public abstract class Enemigo extends SpriteMobileAutonomo
         running = false;
     }
     
-    public Enemigo(Rectangle rectangle, Color color) 
+    public Enemigo(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
     }    
 }

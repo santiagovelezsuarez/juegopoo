@@ -4,6 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -27,11 +32,16 @@ public class Ricky extends SpriteMobileManual
     
     public static final int X0 = 5;   
 
-    public Ricky(Rectangle rectangle, Color color) 
+    public Ricky(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
         paso = SLOW;       
         oxigeno=OXIGENOINICIAL;
+         try {
+            imagen=ImageIO.read(new File("./src/main/java/RickyGame/textures/SpriteSheetMinero.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Diamante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     } 
 
     public int getOxigeno() {
@@ -109,7 +119,8 @@ public class Ricky extends SpriteMobileManual
     @Override
     public void draw(Graphics g) 
     {
-        g.setColor(this.getColor());      
-        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        g.drawImage(imagen, rectangle.x,rectangle.y, rectangle.width, rectangle.height, null);
+       // g.setColor(this.getColor());      
+        //g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }    
 }

@@ -8,9 +8,12 @@ package uam.poo.game.elementos;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -29,12 +32,17 @@ public class Murcielago extends Enemigo
     public static final Color COLOR  = Color.BLACK;     
     
 
-    public Murcielago(Rectangle rectangle, Color color) 
+    public Murcielago(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
         running = true;
         damage = (int)(Math.random()*4+1);
         velX=VELOCIDAD;
+         try {
+            imagen=ImageIO.read(new File("./src/main/java/RickyGame/textures/murcielago.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Diamante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
     @Override
@@ -73,8 +81,9 @@ public class Murcielago extends Enemigo
     @Override
     public void draw(Graphics g)
     {
-        g.setColor(this.getColor());
-        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        g.drawImage(imagen, rectangle.x,rectangle.y, rectangle.width, rectangle.height, null);
+       // g.setColor(this.getColor());
+       //g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
     @Override

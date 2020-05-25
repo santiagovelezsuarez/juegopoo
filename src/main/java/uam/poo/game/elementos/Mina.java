@@ -4,7 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import uam.poo.game.utils.Coordenada;
 
@@ -39,9 +44,14 @@ public class Mina extends SpriteEstatico implements Contenedor
     
     private final String PARED = "*";
     
-    public Mina(Rectangle rectangle, Color color) 
+    public Mina(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
+         try {
+            imagen=ImageIO.read(new File("./src/main/java/RickyGame/textures/fondo.jpg"));
+        } catch (IOException ex) {
+            Logger.getLogger(Diamante.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //this.ricky = new Ricky(new Rectangle(Ricky.X0, rectangle.height-Ricky.HEIGHT-BORDE, Ricky.WIDTH, Ricky.HEIGHT), Ricky.COLOR);
         //this.ricky.setContenedor(this);
         //this.diamante=new Diamante(new Rectangle(rectangle.width-Diamante.WIDTH-BORDE,BORDE,Diamante.WIDTH,Diamante.HEIGHT),Diamante.COLOR);
@@ -50,22 +60,23 @@ public class Mina extends SpriteEstatico implements Contenedor
         this.enemigos = new ArrayList<>();
         this.paredes = new ArrayList<>();
         dibujarBordes(); 
+        
         //generarOxygenos();
     }
         
     
     public void dibujarBordes()
     {
-        Pared p1 = new Pared(new Rectangle(0, 0, rectangle.width, BORDE), Pared.COLOR);
+        Pared p1 = new Pared(new Rectangle(0, 0, rectangle.width, BORDE));
         p1.setContenedor(this);            
         paredes.add(p1);
-        Pared p2 = new Pared(new Rectangle(0, 0, BORDE, rectangle.height), Pared.COLOR);
+        Pared p2 = new Pared(new Rectangle(0, 0, BORDE, rectangle.height));
         p2.setContenedor(this);            
         paredes.add(p2);
-        Pared p3 = new Pared(new Rectangle(0, rectangle.height-BORDE, rectangle.width, BORDE), Pared.COLOR);
+        Pared p3 = new Pared(new Rectangle(0, rectangle.height-BORDE, rectangle.width, BORDE));
         p3.setContenedor(this);            
         paredes.add(p3);
-        Pared p4 = new Pared(new Rectangle(rectangle.width-BORDE, 0, BORDE, rectangle.height), Pared.COLOR);
+        Pared p4 = new Pared(new Rectangle(rectangle.width-BORDE, 0, BORDE, rectangle.height));
         p4.setContenedor(this);            
         paredes.add(p4);
         //Temporal
@@ -94,26 +105,26 @@ public class Mina extends SpriteEstatico implements Contenedor
             if(mapa.get(i).equals(RICKY))                
             {
                 Coordenada c = getCoordenada(i);
-                this.ricky = new Ricky(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()), Ricky.COLOR);
+                this.ricky = new Ricky(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()));
                 this.ricky.setContenedor(this);
             }
             else if(mapa.get(i).equals(DIAMANTE))
             {
                 Coordenada c = getCoordenada(i);
-                this.diamante=new Diamante(new Rectangle(c.getX(), c.getY(),getWidthCelda(), getHeightCelda()),Diamante.COLOR);
+                this.diamante=new Diamante(new Rectangle(c.getX(), c.getY(),getWidthCelda(), getHeightCelda()));
                 this.diamante.setContenedor(this);
             }
             else if(mapa.get(i).equals(OXIGENO))
             {                
                 Coordenada c = getCoordenada(i);
-                Oxygeno o = new Oxygeno(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()), Oxygeno.COLOR);
+                Oxygeno o = new Oxygeno(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()));
                 o.setContenedor(this);
                 oxygenos.add(o);
             }
             else if(mapa.get(i).equals(PARED))
             {
                 Coordenada c = getCoordenada(i);
-                Pared p = new Pared(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()), Pared.COLOR);
+                Pared p = new Pared(new Rectangle(c.getX(), c.getY(), getWidthCelda(), getHeightCelda()));
                 p.setContenedor(this);            
                 paredes.add(p); 
             }
@@ -162,11 +173,11 @@ public class Mina extends SpriteEstatico implements Contenedor
         {
             case ROCA:
                 hx = (int) (Math.random() * rectangle.width - Roca.WIDTH);
-                enemigo = new Roca(new Rectangle(hx, Roca.SCREEN_TOP, Roca.WIDTH, Roca.HEIGHT), Roca.COLOR);               
+                enemigo = new Roca(new Rectangle(hx, Roca.SCREEN_TOP, Roca.WIDTH, Roca.HEIGHT));               
                 break;
             case MURCIELAGO:
                 hx = (int) (Math.random() * rectangle.width - Roca.WIDTH);
-                enemigo = new Murcielago(new Rectangle(hx, Murcielago.SCREEN_TOP, Murcielago.WIDTH, Murcielago.HEIGHT), Murcielago.COLOR);                
+                enemigo = new Murcielago(new Rectangle(hx, Murcielago.SCREEN_TOP, Murcielago.WIDTH, Murcielago.HEIGHT));                
                 break;
             default:
                 System.err.println("[Mina@agregarEnemigo] tipo incorrecto: " + tipo);
@@ -269,8 +280,9 @@ public class Mina extends SpriteEstatico implements Contenedor
     @Override
     public void draw(Graphics g) 
     {
-        g.setColor(getColor());
-        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        g.drawImage(imagen, rectangle.x,rectangle.y, rectangle.width, rectangle.height, null);
+        //g.setColor(getColor());
+        //g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         
         
         for(Pared pared : paredes)

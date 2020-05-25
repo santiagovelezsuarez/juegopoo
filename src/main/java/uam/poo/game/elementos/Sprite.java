@@ -3,6 +3,7 @@ package uam.poo.game.elementos;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -13,14 +14,14 @@ public abstract class Sprite
 {
     protected Rectangle rectangle;
     
-    protected Color color;
+    protected BufferedImage imagen;
     
     protected Contenedor contenedor;
     
-    public Sprite(Rectangle rectangle, Color color)
+    public Sprite(Rectangle rectangle)
     {
         this.rectangle = rectangle;
-        this.color = color;
+        
     }
     
     public abstract void draw(Graphics g);
@@ -34,9 +35,10 @@ public abstract class Sprite
     {
         this.contenedor = contenedor;
     }
-    
-    public Color getColor()
-    {
-        return color;
+
+    public BufferedImage getImagen() {
+        return imagen;
     }
+    
+    
 }

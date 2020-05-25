@@ -2,6 +2,7 @@ package uam.poo.game.elementos;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -10,8 +11,8 @@ import java.awt.Rectangle;
 
 public abstract class SpriteEstatico extends Sprite
 {    
-    public SpriteEstatico(Rectangle rectangle, Color color)
+    public SpriteEstatico(Rectangle rectangle)
     {
-        super(rectangle, color);
+        super(rectangle);
     }    
 }

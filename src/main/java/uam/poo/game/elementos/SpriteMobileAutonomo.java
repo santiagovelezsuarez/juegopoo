@@ -9,8 +9,8 @@ import java.awt.Rectangle;
  */
 public abstract class SpriteMobileAutonomo extends SpriteMobile implements Runnable
 {    
-    public SpriteMobileAutonomo(Rectangle rectangle, Color color)
+    public SpriteMobileAutonomo(Rectangle rectangle)
     {
-        super(rectangle, color);
+        super(rectangle);
     }    
 }

@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -22,11 +25,16 @@ public class Roca extends Enemigo
     
     public static final Color COLOR  = Color.GRAY;   
 
-    public Roca(Rectangle rectangle, Color color) 
+    public Roca(Rectangle rectangle) 
     {
-        super(rectangle, color);
+        super(rectangle);
         running = true;
         damage=5;
+         try {
+            imagen=ImageIO.read(new File("./src/main/java/RickyGame/textures/spriteSheetRoca.jpg"));
+        } catch (IOException ex) {
+            Logger.getLogger(Diamante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
     @Override
@@ -47,8 +55,9 @@ public class Roca extends Enemigo
     @Override
     public void draw(Graphics g)
     {
-        g.setColor(this.getColor());
-        g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        g.drawImage(imagen, rectangle.x,rectangle.y, rectangle.width, rectangle.height, null);
+        //g.setColor(this.getColor());
+        //g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
     @Override
